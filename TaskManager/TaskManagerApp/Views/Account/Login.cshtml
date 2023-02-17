@@ -1,0 +1,24 @@
+﻿@model LoginViewModel
+
+@if (@ViewData["Message"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewData["Message"]
+    </div>
+}
+
+<form method="post" asp-action="Login" asp-controller="Account">
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" placeholder="Wprowadź email" name="Email">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Hasło</label>
+        <input type="password" class="form-control" placeholder="Hasło" name="Password">
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Zaloguj się</button>
+
+</form>
