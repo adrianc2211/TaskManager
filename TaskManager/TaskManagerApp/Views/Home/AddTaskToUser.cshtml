@@ -1,0 +1,44 @@
+﻿@model HistoryViewModel
+
+@if (@ViewData["Message"] != null)
+{
+        <div class="alert alert-danger" role="alert">
+        @ViewData["Message"]
+        </div>
+}
+
+<form method="post" asp-action="AddTaskToUser" asp-controller="Home"class="col-sm-6 offset-sm-3">
+    <div class="row justify-content-center">
+        <div class="form-group">
+            <label>Identyfikator zadania</label>
+            <input type="number" class="form-control" placeholder="Wprwoadź identyfikator użytkownika" name="UserId">
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Identyfikator użytkownika</label>
+            <input type="number" class="form-control" placeholder="Wprwoadź identyfikator zadania" name="TaskId">
+            <span asp-validation-for="TaskId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Notatka</label>
+            <input type="text" class="form-control" placeholder="Wprwoadź notatkę" name="Note">
+            <span asp-validation-for="Note" class="text-danger"></span>
+        </div>
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Dodaj zadanie</button>
+
+</form>
+<br/>
+<ul class="list-group">
+    @if (Model.HistoryList != null)
+    {
+        <h3>Użytkownicy i ich zadania: </h3>
+        @foreach (var item in Model.HistoryList)
+        {
+            <li class="list-group-item">
+                <b>Identyfikator użytkownika:</b> @item.UserId, <b>Identyfikator zadania:</b> @item.TaskId, <b>Data utworzenia: </b> @item.CreateDate, <b>Notatka: </b> @item.Note        
+            </li>
+        }
+    }
+</ul>

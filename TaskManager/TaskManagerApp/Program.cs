@@ -14,6 +14,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString(envDev)));
 
 builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IHomeService, HomeService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

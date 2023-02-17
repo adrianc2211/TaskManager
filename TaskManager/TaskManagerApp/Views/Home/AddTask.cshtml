@@ -1,0 +1,57 @@
+﻿@model TaskViewModel
+
+@if (@ViewData["Message"] != null)
+{
+        <div class="alert alert-danger" role="alert">
+        @ViewData["Message"]
+        </div>
+}
+
+<form method="post" asp-action="AddTask" asp-controller="Home"class="col-sm-6 offset-sm-3">
+    <div class="row justify-content-center">
+        <div class="form-group">
+            <label>Tytuł</label>
+            <input type="text" class="form-control" placeholder="Wprwoadź tytuł" name="Title">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Data realizacji</label>
+            <input type="date" class="form-control" placeholder="Wprwoadź datę" name="DueDate">
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Kod statusu</label>
+            <input type="text" class="form-control" placeholder="Wprwoadź kod statusu" name="StatusCode">
+            <span asp-validation-for="StatusCode" class="text-danger"></span>
+        </div>
+         <div class="form-group">
+            <label>Opis statusu</label>
+            <input type="text" class="form-control" placeholder="Wprwoadź opis statusu" name="StatusDescription">
+            <span asp-validation-for="StatusDescription" class="text-danger"></span>
+        </div>
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Dodaj zadanie</button>
+
+</form>
+<br/>
+<ul class="list-group">
+    @if (Model.TaskList != null)
+    {
+        <h3>Nasze zadania: </h3>
+        @foreach (var item in Model.TaskList)
+        {
+            <li class="list-group-item">
+                <b>Tytuł:</b> @item.Title, <b>Data realizacji:</b> @item.DueDate, <b>Dodatkowe szczegóły: </b> @item.DetailDescription
+                <a asp-controller="Home" asp-action="DeleteTask" asp-route-title="@item.Title" class="btn btn-danger">Usuń</a>
+                <form method="post" asp-action="UpdateTask" asp-controller="Home">
+                    <label>Rozbudowa zadania</label>
+                    <input type="text" class="form-control" name="detailDescription">
+                    <input type="hidden" class="form-control" name="title" value="@item.Title">
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Rozbuduj zadanie</button>
+                </form>
+            </li>
+        }
+    }
+</ul>
