@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 using TaskManagerApp.Interfaces;
 using TaskManagerApp.ViewModels;
 using TaskManagerApp.ViewModels.Account;
@@ -82,6 +83,16 @@ namespace TaskManagerApp.Controllers
         public IActionResult UnAuthorization()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult LogOut()
+        {
+            var httpContext = accessor.HttpContext;
+
+            httpContext?.Session.Clear();
+
+            return RedirectToAction("Login", "Account");
         }
     }
 
