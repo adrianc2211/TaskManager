@@ -13,7 +13,9 @@ Wykonanie polecenia upadate-database zaktualizuje odpowiednio bazę danych bez t
 Aplikacja jest w wykonana w wersji .Net 6.
 
 Opis funkcji aplikacji
-Po włączeniu aplikacji na pierwszym planie pojawi się formularz logowania. W górnej belce są dostępne 3 przyciski: Menadżer zadań, Rejestracja oraz Logowanie. Po zalogowaniu się na odpowiednie konto z uprawnieniami (Email: admin@wp.pl, Hasło: Hasło123#@!) będą dostępne inne akcję:
+Po włączeniu aplikacji na pierwszym planie pojawi się formularz logowania. W górnej belce są dostępne 3 przyciski: Menadżer zadań, Rejestracja oraz Logowanie. 
+Można dodać nowego użytkownika, jeżeli w nazwie będzie zawarta fraza admin - to będzie miał uprawnienia administratora. 
+Po zalogowaniu się na odpowiednie konto z uprawnieniami (Email: admin@wp.pl, Hasło: Hasło123#@!) będą dostępne inne akcję:
 
 - Wyloguj
 - Dodaj użytkownika -> tutaj zobaczymy formularz który odpowiada za dodanie użytkownika. Niżej również zobaczymy listę wszystkich użytkowników w aplikacji. Możemy również wykonać na nich akcję Usuń
