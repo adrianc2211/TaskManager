@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 
 namespace TaskManagerApp.Models
 {
@@ -14,5 +15,7 @@ namespace TaskManagerApp.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+        public int TaskId { get; set; }
+        public List<Task> Tasks { get; set; } //dodane
     }
 }

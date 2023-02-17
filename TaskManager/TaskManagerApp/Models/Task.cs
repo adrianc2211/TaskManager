@@ -10,7 +10,9 @@ namespace TaskManagerApp.Models
         public string Title { get; set; }
         public DateTime DueDate { get; set; }
         public int? UserId { get; set; }
+        public User Users { get; set; }
         public StatusCode? StatusCode { get; set; }
         public string DetailDescription { get; set; }
+        //
     }
 }

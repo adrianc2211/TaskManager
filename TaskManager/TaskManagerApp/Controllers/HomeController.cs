@@ -32,13 +32,14 @@ namespace TaskManagerApp.Controllers
         public IActionResult AddUser(UserViewModel userViewModel)
         {
             var model = homeService.GetUserViewModel();
+            ModelState.Remove("UserList");
             if (ModelState.IsValid)
             {
                 var userExist = homeService.AddUser(userViewModel);
 
                 if (userExist)
                 {
-                    ViewData["Message"] = "Taki użytkownik już istanieje";
+                    ViewData["Message"] = "Taki użytkownik już istnieje";
 
                     return View(model);
                 }

@@ -121,7 +121,8 @@ namespace TaskManagerApp.Services
             {
                 DueDate = taskViewModel.DueDate,
                 StatusCode = new StatusCode() { Code = taskViewModel.StatusCode, Description = taskViewModel.StatusDescription },
-                Title = taskViewModel.Title
+                Title = taskViewModel.Title,
+                DetailDescription = ""
             };
 
             dataContext.Tasks.Add(task);
