@@ -1,4 +1,5 @@
-﻿@model TaskViewModel
+﻿@using TaskManagerApp.Enums
+@model TaskViewModel
 
 @if (@ViewData["Message"] != null)
 {
@@ -21,9 +22,10 @@
         </div>
         <div class="form-group">
             <label>Kod statusu</label>
-            <input type="text" class="form-control" placeholder="Wprwoadź kod statusu" name="StatusCode">
+            <select  type="dropdown" class="form-control" placeholder="Wprwoadź kod" asp-for="StatusCode" asp-items="Html.GetEnumSelectList<TaskStatusCodes>()"></select>
             <span asp-validation-for="StatusCode" class="text-danger"></span>
         </div>
+
          <div class="form-group">
             <label>Opis statusu</label>
             <input type="text" class="form-control" placeholder="Wprwoadź opis statusu" name="StatusDescription">
@@ -35,23 +37,29 @@
 
 </form>
 <br/>
-<ul class="list-group">
+<div class="list-group">
     @if (Model.TaskList != null)
     {
+        
+
         <h3>Nasze zadania: </h3>
         @foreach (var item in Model.TaskList)
         {
-            <li class="list-group-item">
-                <b>Tytuł:</b> @item.Title, <b>Data realizacji:</b> @item.DueDate, <b>Dodatkowe szczegóły: </b> @item.DetailDescription
-                <a asp-controller="Home" asp-action="DeleteTask" asp-route-title="@item.Title" class="btn btn-danger">Usuń</a>
+            <span class="list-group-item" style="margin-left: @((int.TryParse(item?.StatusCode?.Code, out var progressCode) ? progressCode : 0) * 200)px !important">
+                <b>Tytuł:</b> @item.Title <br/>
+                <b>Data realizacji:</b> @item.DueDate <br/>
+                <b>Status:</b> @item.StatusCode.Description, @((int.TryParse(item.StatusCode.Code, out var statusCode) ? statusCode : 0) + 1) z @(((int)TaskStatusCodes.Finished) + 1) etapów<br/>
+                <b>Dodatkowe szczegóły: </b> @item.DetailDescription <br/>
+                
                 <form method="post" asp-action="UpdateTask" asp-controller="Home">
                     <label>Rozbudowa zadania</label>
                     <input type="text" class="form-control" name="detailDescription">
                     <input type="hidden" class="form-control" name="title" value="@item.Title">
                     <br/>
-                    <button type="submit" class="btn btn-primary">Rozbuduj zadanie</button>
+                    <button type="submit" class="btn btn-primary">Wprowadź szczegóły: </button>
+                    <a asp-controller="Home" asp-action="DeleteTask" asp-route-title="@item.Title" class="btn btn-danger">Usuń</a>
                 </form>
-            </li>
+            </span>
         }
     }
-</ul>
+</div>

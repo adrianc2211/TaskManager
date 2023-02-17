@@ -1,6 +1,5 @@
 using Bogus;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TaskManagerApp.DbContexts;
 using TaskManagerApp.Interfaces;

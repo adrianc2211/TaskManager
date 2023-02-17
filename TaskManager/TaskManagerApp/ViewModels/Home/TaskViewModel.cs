@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
-using TaskManagerApp.Models;
+using TaskManagerApp.Enums;
 
 namespace TaskManagerApp.ViewModels.Home
 {
@@ -13,7 +13,7 @@ namespace TaskManagerApp.ViewModels.Home
         [DataType(DataType.Date)]
         public DateTime DueDate { get; set; }
         [Required(ErrorMessage = "Kod statusu jest wymagany")]
-        public string StatusCode { get; set; }
+        public TaskStatusCodes StatusCode { get; set; }
         [Required(ErrorMessage = "Opis statusu jest wymagany")]
         public string StatusDescription { get; set; }
         [BindNever]

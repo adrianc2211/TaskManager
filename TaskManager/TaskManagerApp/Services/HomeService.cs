@@ -1,8 +1,10 @@
-﻿using TaskManagerApp.DbContexts;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using TaskManagerApp.DbContexts;
 using TaskManagerApp.Interfaces;
 using TaskManagerApp.Models;
 using TaskManagerApp.ViewModels.Home;
-using System.Linq;
 
 namespace TaskManagerApp.Services
 {
@@ -79,14 +81,18 @@ namespace TaskManagerApp.Services
             return false;
         }
 
-        public TaskViewModel GetTaskViewModel()
+        public TaskViewModel GetTaskViewModel(bool adminMode, int userId)
         {
             TaskViewModel taskViewModel = new TaskViewModel()
             {
                 TaskList = new List<Models.Task>()
             };
 
-            var tasks = dataContext.Tasks;
+            var tasks = dataContext.Tasks
+                .Include(t=>t.Users)          
+                .Include(t => t.StatusCode)
+                .Where(t => adminMode == true || t.Users.Select(u=>u.Id).Contains(userId))
+                .ToList();
 
             if (tasks != null)
             {
@@ -109,10 +115,9 @@ namespace TaskManagerApp.Services
 
         public bool AddTask(TaskViewModel taskViewModel)
         {
-            var existTask= dataContext.Tasks.Where(x => x.Title == taskViewModel.Title).Any();
-            var existStatus = dataContext.StatusCodes.Where(x => x.Code == taskViewModel.StatusCode).Any();
+            var existTask = dataContext.Tasks.Where(x => x.Title == taskViewModel.Title).Any();
 
-            if (existTask || existStatus)
+            if (existTask)
             {
                 return true;
             }
@@ -120,7 +125,7 @@ namespace TaskManagerApp.Services
             var task = new Models.Task()
             {
                 DueDate = taskViewModel.DueDate,
-                StatusCode = new StatusCode() { Code = taskViewModel.StatusCode, Description = taskViewModel.StatusDescription },
+                StatusCode = new StatusCode() { Code = ((int)taskViewModel.StatusCode).ToString(), Description = GetDisplayName(taskViewModel.StatusCode) },
                 Title = taskViewModel.Title,
                 DetailDescription = ""
             };
@@ -129,6 +134,15 @@ namespace TaskManagerApp.Services
             dataContext.SaveChanges();
 
             return false; 
+
+            string GetDisplayName(Enum enumValue)
+            {
+                return enumValue.GetType()
+                                .GetMember(enumValue.ToString())
+                                .First()
+                                .GetCustomAttribute<DisplayAttribute>()
+                                .GetName();
+            }
         }
 
         public void DeleteTask(string title)
@@ -175,6 +189,7 @@ namespace TaskManagerApp.Services
             {
                 return true;
             }
+
             History history = new History
             {
                 CreateDate = DateTime.Now,
@@ -184,8 +199,18 @@ namespace TaskManagerApp.Services
             };
 
             dataContext.Histories.Add(history);
-            dataContext.SaveChanges();
+            
+            var task = dataContext.Tasks
+                .Include(t => t.Users)
+                .First(x => x.Id == historyViewModel.TaskId);
 
+            var user = dataContext.Users
+                .Include(t => t.Tasks)
+                .First(x => x.Id == historyViewModel.UserId);
+
+            task.Users.Add(user);
+
+            dataContext.SaveChanges();
             return false;
         }
 

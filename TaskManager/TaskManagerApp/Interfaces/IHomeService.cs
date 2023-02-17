@@ -8,7 +8,7 @@ namespace TaskManagerApp.Interfaces
         bool AddUser(UserViewModel userViewModel);
         void DeleteUser(string email);
 
-        TaskViewModel GetTaskViewModel();
+        TaskViewModel GetTaskViewModel(bool adminMode, int userId);
         bool AddTask(TaskViewModel userViewModel);
         void DeleteTask(string title);
 

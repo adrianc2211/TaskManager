@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 using TaskManagerApp.Interfaces;
 using TaskManagerApp.ViewModels;
 using TaskManagerApp.ViewModels.Account;
@@ -65,10 +63,12 @@ namespace TaskManagerApp.Controllers
                 if (appUser == null)
                 {
                     ViewData["Message"] = "Niepoprawne dane logowania";
+                    
                     return View(loginViewModel);
                 }
 
                 httpContext?.Session.SetString("Role", appUser.Role);
+                httpContext?.Session.SetString("UserId", appUser.Id.ToString());
 
                 return RedirectToAction("Index", "Home");
 

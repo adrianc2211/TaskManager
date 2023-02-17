@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using TaskManagerApp.Authorizations;
 using TaskManagerApp.Interfaces;
-using TaskManagerApp.Models;
 using TaskManagerApp.ViewModels.Home;
 
 namespace TaskManagerApp.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         public IHomeService homeService { get; set; }
@@ -63,7 +61,10 @@ namespace TaskManagerApp.Controllers
         [HttpGet]
         public IActionResult AddTask()
         {
-            var model = homeService.GetTaskViewModel();
+            var role = this.HttpContext?.Session.GetString("Role");
+            var userId = int.Parse(this.HttpContext?.Session.GetString("UserId") ?? "-1");
+
+            var model = homeService.GetTaskViewModel(role == "admin", userId);
             return View(model);
         }
 
@@ -72,10 +73,10 @@ namespace TaskManagerApp.Controllers
         [HttpPost]
         public IActionResult AddTask(TaskViewModel taskViewModel)
         {
-            var model = homeService.GetTaskViewModel();
+            var model = homeService.GetTaskViewModel(true, 0);
 
             ModelState.Remove("TaskList");
-   
+
             if (ModelState.IsValid)
             {
                 var taskExsit = homeService.AddTask(taskViewModel);
@@ -109,7 +110,7 @@ namespace TaskManagerApp.Controllers
             var model = homeService.GetHistoryViewModel();
             return View(model);
         }
-        [Auth("admin")]
+        [Auth("admin, normal")]
         [HttpPost]
         public IActionResult AddTaskToUser(HistoryViewModel historyViewModel)
         {
@@ -138,7 +139,7 @@ namespace TaskManagerApp.Controllers
         [HttpPost]
         public IActionResult UpdateTask(string detailDescription, string title)
         {
-            var model = homeService.GetTaskViewModel();
+            var model = homeService.GetTaskViewModel(true, 0);
 
             if (detailDescription != null)
             {
