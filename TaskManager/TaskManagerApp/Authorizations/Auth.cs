@@ -20,7 +20,7 @@ namespace TaskManagerApp.Authorizations
                 context.Result = new RedirectResult("/Account/Login");
                 return;
             }
-            if (role == _permission)
+            if (_permission.Contains(role))
             {
                 return;
             }

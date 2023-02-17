@@ -7,7 +7,7 @@ using TaskManagerApp.ViewModels.Home;
 
 namespace TaskManagerApp.Controllers
 {
-    [Auth("admin")]
+    
     public class HomeController : Controller
     {
         public IHomeService homeService { get; set; }
@@ -20,13 +20,14 @@ namespace TaskManagerApp.Controllers
             return View();
         }
 
+        [Auth("admin")]
         [HttpGet]
         public IActionResult AddUser()
         {
             var model = homeService.GetUserViewModel();
             return View(model);
         }
-
+        [Auth("admin")]
         [HttpPost]
         public IActionResult AddUser(UserViewModel userViewModel)
         {
@@ -49,7 +50,7 @@ namespace TaskManagerApp.Controllers
                 return View(model);
             }
         }
-
+        [Auth("admin")]
         [HttpGet]
         public IActionResult DeleteUser(string email)
         {
@@ -57,7 +58,7 @@ namespace TaskManagerApp.Controllers
 
             return RedirectToAction("AddUser", "Home");
         }
-
+        [Auth("admin, normal")]
         [HttpGet]
         public IActionResult AddTask()
         {
@@ -65,6 +66,8 @@ namespace TaskManagerApp.Controllers
             return View(model);
         }
 
+
+        [Auth("admin, normal")]
         [HttpPost]
         public IActionResult AddTask(TaskViewModel taskViewModel)
         {
@@ -90,7 +93,7 @@ namespace TaskManagerApp.Controllers
                 return View(model);
             }
         }
-
+        [Auth("admin")]
         [HttpGet]
         public IActionResult DeleteTask(string title)
         {
@@ -98,14 +101,14 @@ namespace TaskManagerApp.Controllers
 
             return RedirectToAction("AddTask", "Home");
         }
-
+        [Auth("admin")]
         [HttpGet]
         public IActionResult AddTaskToUser()
         {
             var model = homeService.GetHistoryViewModel();
             return View(model);
         }
-
+        [Auth("admin")]
         [HttpPost]
         public IActionResult AddTaskToUser(HistoryViewModel historyViewModel)
         {
@@ -130,7 +133,7 @@ namespace TaskManagerApp.Controllers
                 return View(model);
             }
         }
-
+        [Auth("admin")]
         [HttpPost]
         public IActionResult UpdateTask(string detailDescription, string title)
         {
