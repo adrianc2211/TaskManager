@@ -10,12 +10,12 @@
 <form method="post" asp-action="AddTaskToUser" asp-controller="Home"class="col-sm-6 offset-sm-3">
     <div class="row justify-content-center">
         <div class="form-group">
-            <label>Identyfikator zadania</label>
+            <label>Identyfikator użytkownika</label>
             <input type="number" class="form-control" placeholder="Wprwoadź identyfikator użytkownika" name="UserId">
             <span asp-validation-for="UserId" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label>Identyfikator użytkownika</label>
+            <label>Identyfikator zadania</label>
             <input type="number" class="form-control" placeholder="Wprwoadź identyfikator zadania" name="TaskId">
             <span asp-validation-for="TaskId" class="text-danger"></span>
         </div>
@@ -31,12 +31,13 @@
 </form>
 <br/>
 <ul class="list-group">
+    <h3>Użytkownicy i ich zadania: </h3>
     @if (Model.HistoryList != null)
     {
-        <h3>Użytkownicy i ich zadania: </h3>
+        
         @foreach (var item in Model.HistoryList)
         {
-            <li class="list-group-item">
+            <li class="list-group">
                 <b>Identyfikator użytkownika:</b> @item.UserId, <b>Identyfikator zadania:</b> @item.TaskId, <b>Data utworzenia: </b> @item.CreateDate, <b>Notatka: </b> @item.Note        
             </li>
         }
